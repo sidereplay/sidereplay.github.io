@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SideReplay – Run your Selenium IDE tests in Chrome again</title>
+  <meta name="description" content="Selenium IDE was removed from the Chrome Web Store. SideReplay opens your .side projects, runs and records tests in Chrome, heals broken locators and exports to Playwright.">
+  <link rel="icon" href="icon.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <a class="brand" href="./"><img src="icon.png" alt="">SideReplay</a>
+      <nav><a href="#features">Features</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a></nav>
+    </header>
+  </div>
+
+  <div class="wrap hero">
+    <h1>Your Selenium IDE tests<br>still work.</h1>
+    <p>Selenium IDE is gone from the Chrome Web Store. SideReplay opens your existing <code>.side</code> projects and runs them in Chrome, fixes locators that broke, and turns your tests into Playwright code when you are ready to move on.</p>
+    <div class="cta">
+      <a class="button primary" href="https://chromewebstore.google.com/search/SideReplay">Add to Chrome — it's free</a>
+      <a class="button" href="#pricing">See Pro</a>
+    </div>
+    <img class="shot" src="screenshot-1-run.png" alt="SideReplay running a Selenium IDE project next to the page under test">
+  </div>
+
+  <section id="features" class="soft">
+    <div class="wrap">
+      <h2>Everything your old tests need</h2>
+      <div class="grid">
+        <div class="card"><h3>Open .side files as they are</h3><p>All 93 Selenium IDE commands, including if/while/times/forEach, alerts and prompts, iframes, new windows and scripts. Old command names are converted for you.</p></div>
+        <div class="card"><h3>Record new tests</h3><p>Click, type, press Enter and pick from lists. SideReplay writes the steps, follows you into iframes and new tabs, and saves several locators for every element.</p></div>
+        <div class="card"><h3>Self-healing locators</h3><p>When a page changes and a locator breaks, SideReplay tries the other locators it saved, tells you which one worked, and updates the test with one click.</p></div>
+        <div class="card"><h3>Export to Playwright <span class="tag">Pro</span></h3><p>Turn a whole project into a readable Playwright Test file. Assertions, loops, frames, windows and dialogs are converted. Anything unusual is marked TODO.</p></div>
+        <div class="card"><h3>Shareable reports <span class="tag">Pro</span></h3><p>Download a single HTML file with every step, result and error message to attach to a bug or send to your team.</p></div>
+        <div class="card"><h3>Private by design</h3><p>Your tests stay in your browser. No account, no tracking, no servers of ours. Only a Pro license key is checked with our payment provider.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>From recorded clicks to Playwright code</h2>
+      <img class="shot" src="screenshot-3-export.png" alt="Export dialog showing generated Playwright code">
+    </div>
+  </section>
+
+  <section id="pricing" class="soft">
+    <div class="wrap">
+      <h2>Pricing</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Free</h3>
+          <div class="price">$0</div>
+          <ul>
+            <li>Open, run, edit and save .side projects</li>
+            <li>Record tests</li>
+            <li>Self-healing locators</li>
+            <li>Export one test (up to 10 steps) to Playwright</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Pro</h3>
+          <div class="price">$9/month</div>
+          <ul>
+            <li>Everything in Free</li>
+            <li>Export whole projects to Playwright Test</li>
+            <li>HTML run reports</li>
+            <li>Email support</li>
+          </ul>
+          <p style="margin-top:16px"><a class="button primary" href="https://buy.polar.sh/polar_cl_3cfrI6ZvZj8nEOMeuUqdsTzeBsazdTv2AzAlm43uvun">Get Pro</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap" style="max-width:760px">
+      <h2>Questions</h2>
+      <details><summary>Is SideReplay made by the Selenium project?</summary><p>No. SideReplay is an independent tool that reads the Selenium IDE file format. Selenium is a trademark of the Software Freedom Conservancy.</p></details>
+      <details><summary>Will my existing .side files work?</summary><p>Yes, files saved by Selenium IDE 3.x and 4.x open directly, including control flow, dialogs, frames and windows. If a step cannot run, SideReplay tells you before the test starts.</p></details>
+      <details><summary>My tests use runScript or executeScript. Does that work?</summary><p>Yes. Chrome asks you to allow it once: open <code>chrome://extensions</code>, click Details on SideReplay and switch on "Allow User Scripts".</p></details>
+      <details><summary>Does SideReplay send my tests anywhere?</summary><p>No. Projects are stored in your browser. See the <a href="privacy.html">privacy policy</a>.</p></details>
+      <details><summary>How do I activate Pro?</summary><p>After checkout you receive a license key by email. Open SideReplay, click "Get Pro" and paste the key. Manage or cancel your subscription any time from the link in the same email.</p></details>
+      <details><summary>Can I get a refund?</summary><p>Yes. If Pro is not for you, email us within 14 days of purchase for a full refund.</p></details>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <footer>
+      <a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="mailto:sidereplay.support@gmail.com">Contact</a>
+      <p>SideReplay is not affiliated with or endorsed by the Selenium project. Selenium is a trademark of the Software Freedom Conservancy.</p>
+    </footer>
+  </div>
+</body>
+</html>
