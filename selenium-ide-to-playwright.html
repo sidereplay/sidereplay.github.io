@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Convert Selenium IDE (.side) tests to Playwright – SideReplay</title>
+  <meta name="description" content="How to turn Selenium IDE .side recordings into Playwright Test code: what converts automatically, what needs a manual look, and a step-by-step migration plan.">
+  <link rel="canonical" href="https://sidereplay.github.io/selenium-ide-to-playwright.html">
+  <meta property="og:title" content="Convert Selenium IDE (.side) tests to Playwright">
+  <meta property="og:description" content="Turn Selenium IDE recordings into readable Playwright Test code without rewriting them by hand.">
+  <meta property="og:image" content="https://sidereplay.github.io/screenshot-3-export.png">
+  <link rel="icon" href="icon.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="doc">
+    <p><a href="./">← SideReplay</a></p>
+    <h1>Convert Selenium IDE tests to Playwright</h1>
+    <p>Selenium IDE recordings are saved as <code>.side</code> files: JSON lists of commands like <code>open</code>, <code>type</code>, <code>click</code> and <code>assertText</code>. Most Selenium-to-Playwright converters expect WebDriver <em>code</em>, so they cannot read these files. This guide shows how to turn a <code>.side</code> project into a Playwright Test file and what to check afterwards.</p>
+    <p class="toc">On this page: <a href="#example">Example</a> · <a href="#mapping">How commands map</a> · <a href="#steps">Step by step</a> · <a href="#review">What to review</a> · <a href="#faq">FAQ</a></p>
+
+    <h2 id="example">Example: a recorded sign-in test</h2>
+    <p>Here is a short test as it appears in Selenium IDE:</p>
+    <table>
+      <tr><th>Command</th><th>Target</th><th>Value</th></tr>
+      <tr><td><code>store</code></td><td><code>correct-horse</code></td><td><code>password</code></td></tr>
+      <tr><td><code>open</code></td><td><code>/login</code></td><td></td></tr>
+      <tr><td><code>type</code></td><td><code>id=email</code></td><td><code>kim@example.com</code></td></tr>
+      <tr><td><code>type</code></td><td><code>id=password</code></td><td><code>${password}</code></td></tr>
+      <tr><td><code>click</code></td><td><code>css=button[type=submit]</code></td><td></td></tr>
+      <tr><td><code>assertText</code></td><td><code>css=h1</code></td><td><code>Welcome back</code></td></tr>
+      <tr><td><code>verifyElementPresent</code></td><td><code>linkText=Sign out</code></td><td></td></tr>
+    </table>
+    <p>And this is the Playwright Test code SideReplay exports for it (only the header comments are left out):</p>
+<pre><code>import { test, expect, type Page } from '@playwright/test';
+
+const BASE_URL = "https://shop.example.com";
+
+type Vars = Record&lt;string, any&gt;;
+
+async function signIn(tab: Page, vars: Vars) {
+  vars.password = "correct-horse";
+  await tab.goto(new URL("/login", BASE_URL).href);
+  await tab.locator("#email").fill("kim@example.com");
+  await tab.locator("#password").fill(`${vars.password}`);
+  await tab.locator("button[type=submit]").first().click();
+  await expect(tab.locator("h1").first()).toHaveText("Welcome back");
+  await expect.soft(tab.getByRole("link", { name: "Sign out", exact: true }).first()).not.toHaveCount(0);
+}
+
+test("sign in", async ({ page }) =&gt; {
+  await signIn(page, {});
+});</code></pre>
+    <p>Each test becomes a function, so a Selenium IDE <code>run</code> command (which calls another test) becomes a normal function call, and variables stay shared the same way they were in the IDE.</p>
+
+    <h2 id="mapping">How Selenium IDE commands map to Playwright</h2>
+    <table>
+      <tr><th>Selenium IDE</th><th>Playwright</th></tr>
+      <tr><td><code>open</code></td><td><code>page.goto()</code> relative to the project's base URL</td></tr>
+      <tr><td><code>click</code>, <code>type</code>, <code>sendKeys</code>, <code>select</code>, <code>check</code></td><td><code>click()</code>, <code>fill()</code>, <code>press()</code>, <code>selectOption()</code>, <code>check()</code></td></tr>
+      <tr><td><code>assert…</code></td><td><code>expect()</code> — the test stops when it fails</td></tr>
+      <tr><td><code>verify…</code></td><td><code>expect.soft()</code> — the test keeps going, like in the IDE</td></tr>
+      <tr><td><code>waitForElementVisible</code> and friends</td><td><code>locator.waitFor()</code> or a web-first <code>expect</code></td></tr>
+      <tr><td><code>store…</code>, <code>${variables}</code></td><td>a shared <code>vars</code> object and template strings</td></tr>
+      <tr><td><code>if</code> / <code>while</code> / <code>times</code> / <code>forEach</code> / <code>do…repeatIf</code></td><td>real JavaScript <code>if</code>, <code>while</code>, <code>for</code> and <code>do…while</code></td></tr>
+      <tr><td><code>selectFrame</code></td><td>a <code>frameLocator()</code> chain</td></tr>
+      <tr><td><code>selectWindow</code>, <code>storeWindowHandle</code></td><td><code>context.waitForEvent("page")</code> and switching the page variable</td></tr>
+      <tr><td><code>assertAlert</code>, <code>acceptConfirmation</code>, <code>answerPrompt</code></td><td>a <code>page.on("dialog")</code> handler with queued answers</td></tr>
+      <tr><td><code>runScript</code>, <code>executeScript</code></td><td><code>page.evaluate()</code> with variables passed in</td></tr>
+      <tr><td><code>linkText=</code>, <code>id=</code>, <code>css=</code>, <code>xpath=</code> locators</td><td><code>getByRole("link")</code>, <code>#id</code>, CSS and <code>xpath=</code> locators</td></tr>
+    </table>
+    <p>Anything that has no direct equivalent is written as a <code>// TODO</code> line with the original command, so nothing disappears silently.</p>
+
+    <h2 id="steps">Step by step</h2>
+    <ol>
+      <li><strong>Install SideReplay</strong> from the <a href="https://chromewebstore.google.com/search/SideReplay">Chrome Web Store</a> and click its toolbar icon to open the side panel.</li>
+      <li><strong>Open your .side file</strong> with the Open button. Files from Selenium IDE 3.x and 4.x load as they are.</li>
+      <li><strong>Run the tests once</strong> against your site. If a locator broke since the recording, SideReplay tries the other locators it saved and offers to update the test. Fixing these first gives you cleaner exported code.</li>
+      <li><strong>Export</strong> with "Export to Playwright". You can export one short test for free to check the output; exporting whole projects is part of <a href="./#pricing">Pro</a>.</li>
+      <li><strong>Save the file</strong> in a Playwright project (<code>npm init playwright@latest</code>) and run <code>npx playwright test</code>.</li>
+    </ol>
+    <img src="screenshot-3-export.png" alt="SideReplay export dialog showing generated Playwright code">
+
+    <h2 id="review">What to review after exporting</h2>
+    <ul>
+      <li><strong>TODO lines.</strong> Search for <code>TODO</code> and convert those steps by hand.</li>
+      <li><strong>Locators.</strong> Recorded XPath and CSS paths work, but Playwright's role-based locators (<code>getByRole</code>, <code>getByLabel</code>) are more stable. Replace the fragile ones as you touch each test.</li>
+      <li><strong>Fixed pauses.</strong> <code>pause</code> becomes <code>waitForTimeout</code>. Playwright waits automatically, so most pauses can be deleted.</li>
+      <li><strong>Base URL.</strong> Move <code>BASE_URL</code> into <code>playwright.config.ts</code> if you run against several environments.</li>
+    </ul>
+    <p>A good plan for big suites: export everything, get the most-used tests green in CI first, and keep running the rest from the <code>.side</code> file in SideReplay until each one is migrated.</p>
+
+    <div class="callout">
+      <strong>Try it on your own .side file.</strong> Recording, playback and one-test export are free.<br>
+      <a class="button primary" href="https://chromewebstore.google.com/search/SideReplay">Add SideReplay to Chrome</a>
+    </div>
+
+    <h2 id="faq">FAQ</h2>
+    <details><summary>Does it work with Selenium IDE 4 files?</summary><p>Yes. SideReplay reads files saved by Selenium IDE 3.x and 4.x and converts old command names automatically.</p></details>
+    <details><summary>Can I export to Cypress or Selenium WebDriver instead?</summary><p>Not yet. Playwright Test (TypeScript) is the only export target today.</p></details>
+    <details><summary>Is my code or test data uploaded anywhere?</summary><p>No. The conversion runs inside your browser. See the <a href="privacy.html">privacy policy</a>.</p></details>
+
+    <footer>
+      <a href="./">Home</a><a href="selenium-ide-alternative.html">Selenium IDE alternatives</a><a href="privacy.html">Privacy</a><a href="mailto:sidereplay.support@gmail.com">Contact</a>
+      <p>SideReplay is not affiliated with the Selenium project. Selenium is a trademark of the Software Freedom Conservancy. Playwright is a trademark of Microsoft.</p>
+    </footer>
+  </main>
+</body>
+</html>

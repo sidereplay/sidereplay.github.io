@@ -33,3 +33,18 @@ footer a { color: var(--muted); margin-right: 16px; }
 .doc { max-width: 760px; padding: 24px 20px 64px; margin: 0 auto; }
 .doc h1 { font-size: 34px; margin-bottom: 8px; }
 .doc h2 { text-align: left; font-size: 22px; margin: 32px 0 8px; }
+.doc table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 15px; }
+.doc th, .doc td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom: 1px solid var(--border); }
+.doc th { color: var(--muted); font-weight: 600; }
+.doc pre { background: #1e1e1e; color: #d4d4d4; border-radius: 10px; padding: 16px; overflow-x: auto; font: 13px/1.55 ui-monospace, Menlo, monospace; }
+.doc code { font-family: ui-monospace, Menlo, monospace; font-size: 0.92em; }
+.doc img { max-width: 100%; border-radius: 10px; box-shadow: 0 10px 30px rgb(20 30 60 / 0.15); margin: 12px 0; }
+.callout { background: var(--soft); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; margin: 24px 0; }
+.callout .button { margin-top: 8px; }
+.toc { color: var(--muted); }
+.toc a { color: var(--accent); }
+/* 좁은 화면에서는 표와 코드만 옆으로 스크롤되고 페이지는 넘치지 않게 한다 */
+.doc table { display: block; overflow-x: auto; }
+.doc td code { overflow-wrap: anywhere; }
+.doc pre { max-width: 100%; }
+.doc { overflow-wrap: break-word; }

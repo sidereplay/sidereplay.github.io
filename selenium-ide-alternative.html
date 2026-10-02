@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Selenium IDE alternatives for Chrome in 2026 – SideReplay</title>
+  <meta name="description" content="Selenium IDE can no longer be installed from the Chrome Web Store. Here are the ways to keep running your .side tests in 2026, compared honestly, and when each one makes sense.">
+  <link rel="canonical" href="https://sidereplay.github.io/selenium-ide-alternative.html">
+  <meta property="og:title" content="Selenium IDE alternatives for Chrome in 2026">
+  <meta property="og:description" content="How to keep running your Selenium IDE .side tests after the Chrome extension was removed.">
+  <meta property="og:image" content="https://sidereplay.github.io/screenshot-1-run.png">
+  <link rel="icon" href="icon.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="doc">
+    <p><a href="./">← SideReplay</a></p>
+    <h1>Selenium IDE alternatives for Chrome (2026)</h1>
+    <p>If you open the Chrome Web Store looking for Selenium IDE today, you won't find it. Here is what happened, and the realistic options for keeping your recorded <code>.side</code> tests alive.</p>
+
+    <h2>What happened to Selenium IDE in Chrome</h2>
+    <ul>
+      <li>The Selenium IDE Chrome extension was built on Manifest V2, Chrome's older extension platform. It had not been updated since late 2021.</li>
+      <li>Chrome turned off Manifest V2 extensions in July 2025 (Chrome 138), so the extension stopped running.</li>
+      <li>On August 31, 2026 the Chrome Web Store removed the remaining Manifest V2 listings, so it can no longer be installed on a new computer either.</li>
+      <li>The Selenium project's next version, Selenium IDE 4, is a separate desktop app rather than a browser extension, and it has been in beta for a long time.</li>
+    </ul>
+    <p>Your <code>.side</code> files are still fine — they are plain JSON. You just need something that can run them.</p>
+
+    <h2>Your options, compared</h2>
+    <table>
+      <tr><th>Option</th><th>Opens .side files</th><th>Records new tests</th><th>Where it runs</th><th>Turns tests into code</th><th>Cost</th></tr>
+      <tr><td>Selenium IDE 4 (desktop beta)</td><td>Yes</td><td>Yes</td><td>Its own desktop app</td><td>Selenium WebDriver languages</td><td>Free</td></tr>
+      <tr><td>Selenium IDE for Firefox</td><td>Yes</td><td>Yes</td><td>Firefox only</td><td>Selenium WebDriver languages</td><td>Free</td></tr>
+      <tr><td>selenium-side-runner</td><td>Yes</td><td>No</td><td>Command line, with WebDriver</td><td>—</td><td>Free</td></tr>
+      <tr><td>UI.Vision RPA</td><td>Imports them into its own format</td><td>Yes</td><td>Chrome and Firefox extension</td><td>No Playwright export</td><td>Free, PRO from $299/year</td></tr>
+      <tr><td>Chrome DevTools Recorder</td><td>No</td><td>Yes</td><td>Built into Chrome</td><td>Puppeteer, JSON (more through Recorder extensions)</td><td>Free</td></tr>
+      <tr><td><strong>SideReplay</strong></td><td><strong>Yes, as they are</strong></td><td>Yes</td><td>Chrome side panel</td><td><strong>Playwright Test</strong></td><td>Free, Pro $9/month</td></tr>
+    </table>
+
+    <h2>Which one fits you</h2>
+    <ul>
+      <li><strong>You want to stay with the Selenium project's own tools</strong> and don't mind a separate app: try Selenium IDE 4, or the Firefox add-on.</li>
+      <li><strong>You only need to run existing tests in CI:</strong> selenium-side-runner runs <code>.side</code> files from the command line.</li>
+      <li><strong>You also automate desktop apps or need OCR:</strong> UI.Vision RPA is a broad RPA tool that can import Selenium IDE projects.</li>
+      <li><strong>You are recording brand-new flows and don't care about .side:</strong> Chrome's built-in DevTools Recorder is free and already installed.</li>
+      <li><strong>You want to keep editing and running your .side tests in Chrome, and move them to Playwright when you are ready:</strong> that is exactly what SideReplay was built for.</li>
+    </ul>
+
+    <h2>Keep running your .side tests with SideReplay</h2>
+    <ol>
+      <li>Install SideReplay from the <a href="https://chromewebstore.google.com/search/SideReplay">Chrome Web Store</a>.</li>
+      <li>Click the toolbar icon to open the side panel, then <strong>Open</strong> your <code>.side</code> file.</li>
+      <li>Click <strong>Run test</strong>. All 93 Selenium IDE commands are supported, including control flow, alerts, iframes and new windows. If a step can't run, SideReplay tells you before the test starts.</li>
+      <li>If the page changed since you recorded, broken locators are healed from the other locators saved in the file, and one click updates the test.</li>
+      <li>When you want to move to code, <a href="selenium-ide-to-playwright.html">export to Playwright</a>.</li>
+    </ol>
+    <img src="screenshot-1-run.png" alt="SideReplay running a Selenium IDE project in the Chrome side panel">
+
+    <div class="callout">
+      <strong>Free for recording, playback and healing.</strong> No account, and your tests never leave your browser.<br>
+      <a class="button primary" href="https://chromewebstore.google.com/search/SideReplay">Add SideReplay to Chrome</a>
+    </div>
+
+    <p class="muted">Details about other tools were checked in October 2026 and may change. If something here is out of date, <a href="mailto:sidereplay.support@gmail.com">let us know</a>.</p>
+
+    <footer>
+      <a href="./">Home</a><a href="selenium-ide-to-playwright.html">Selenium IDE to Playwright</a><a href="privacy.html">Privacy</a><a href="mailto:sidereplay.support@gmail.com">Contact</a>
+      <p>SideReplay is not affiliated with the Selenium project. Selenium is a trademark of the Software Freedom Conservancy. Other product names belong to their owners.</p>
+    </footer>
+  </main>
+</body>
+</html>
