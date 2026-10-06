@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Convert Selenium IDE (.side) to Playwright online – free | SideReplay</title>
+  <meta name="description" content="Free online converter: drop a Selenium IDE .side file and get Playwright Test code. Runs in your browser; your file is never uploaded.">
+  <link rel="canonical" href="https://sidereplay.github.io/convert.html">
+  <meta property="og:title" content="Convert Selenium IDE (.side) to Playwright – free online">
+  <meta property="og:description" content="Drop a .side file, get Playwright Test code. Nothing is uploaded.">
+  <meta property="og:image" content="https://sidereplay.github.io/screenshot-3-export.png">
+  <link rel="icon" href="icon.png">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .drop { display: block; border: 2px dashed var(--border); border-radius: 12px; padding: 36px 20px; text-align: center; cursor: pointer; background: var(--soft); }
+    .drop.over { border-color: var(--accent); }
+    .drop strong { color: var(--accent); }
+    .drop input { display: none; }
+    .converter textarea { width: 100%; min-height: 360px; font: 13px/1.5 ui-monospace, Menlo, monospace; background: #1e1e1e; color: #d4d4d4; border-radius: 10px; padding: 14px; border: 0; white-space: pre; }
+    .converter .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 12px 0; }
+    .converter select { font: inherit; padding: 6px 8px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--fg); max-width: 100%; }
+    .converter button { font: inherit; font-weight: 600; padding: 8px 16px; border-radius: 8px; border: 2px solid var(--accent); background: var(--accent); color: #fff; cursor: pointer; }
+    .converter button.secondary { background: transparent; color: var(--accent); }
+    .problem { color: #b42318; }
+  </style>
+</head>
+<body>
+  <main class="doc converter">
+    <p><a href="./">← SideReplay</a></p>
+    <h1>Convert Selenium IDE to Playwright</h1>
+    <p>Drop a Selenium IDE <code>.side</code> file and get Playwright Test (TypeScript) code. The conversion runs in your browser — <strong>your file is never uploaded</strong>.</p>
+
+    <label class="drop" id="drop">
+      <input id="file" type="file" accept=".side,application/json">
+      <strong>Choose a .side file</strong> or drop it here
+    </label>
+    <p class="problem" id="problem" hidden></p>
+
+    <section id="result" hidden>
+      <div class="row">
+        <label for="test">Test:</label>
+        <select id="test"></select>
+      </div>
+      <div class="callout" id="preview-note" hidden>
+        <strong>This is a preview of the first 10 steps.</strong> The free converter handles one test with up to 10 steps.
+        To export long tests and whole projects at once, use the SideReplay extension (Pro). It also runs your .side tests in Chrome and fixes broken locators.<br>
+        <a class="button primary" href="https://chromewebstore.google.com/detail/giiegloccjlfbooafilbmbbjfidfehek?utm_source=sidereplay-site&utm_medium=convert&utm_campaign=site">Get SideReplay for Chrome</a>
+      </div>
+      <p class="muted" id="todo-note" hidden></p>
+      <textarea id="code" readonly aria-label="Playwright code" spellcheck="false"></textarea>
+      <div class="row">
+        <button id="download" type="button">Download .spec.ts</button>
+        <button id="copy" class="secondary" type="button">Copy</button>
+      </div>
+      <p><strong>Converting a whole project?</strong> The <a href="https://chromewebstore.google.com/detail/giiegloccjlfbooafilbmbbjfidfehek?utm_source=sidereplay-site&utm_medium=convert&utm_campaign=site">SideReplay extension</a> exports every test at once, runs your .side files in Chrome first so you can fix broken locators before converting, and keeps working offline.</p>
+      <p class="muted">Save the file in a Playwright project (<code>npm init playwright@latest</code>) and run <code>npx playwright test</code>. See <a href="selenium-ide-to-playwright.html">how commands are converted</a>.</p>
+    </section>
+
+    <div class="callout">
+      <strong>Still need to run your .side tests as they are?</strong> SideReplay opens them in Chrome, runs all 93 Selenium IDE commands and records new tests. Free.<br>
+      <a class="button primary" href="https://chromewebstore.google.com/detail/giiegloccjlfbooafilbmbbjfidfehek?utm_source=sidereplay-site&utm_medium=convert&utm_campaign=site">Add SideReplay to Chrome</a>
+    </div>
+
+    <footer>
+      <a href="./">Home</a><a href="selenium-ide-to-playwright.html">Selenium IDE to Playwright</a><a href="selenium-ide-alternative.html">Selenium IDE alternatives</a><a href="privacy.html">Privacy</a>
+      <p>SideReplay is not affiliated with the Selenium project. Selenium is a trademark of the Software Freedom Conservancy. Playwright is a trademark of Microsoft.</p>
+    </footer>
+  </main>
+  <script src="converter.js"></script>
+</body>
+</html>
