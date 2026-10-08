@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Katalon Recorder alternative for Chrome (2026): keep running your test suites</title>
+  <meta name="description" content="Katalon Recorder is no longer maintained. SideReplay opens the HTML test suites it saved, runs them in Chrome, records new tests and exports them to Playwright.">
+  <link rel="canonical" href="https://sidereplay.github.io/katalon-recorder-alternative.html">
+  <meta property="og:title" content="Katalon Recorder alternative: open your test suites in SideReplay">
+  <meta property="og:description" content="Katalon Recorder is no longer maintained. Keep running the test suites you saved from it, in Chrome.">
+  <meta property="og:image" content="https://sidereplay.github.io/screenshot-1-run.png">
+  <link rel="icon" href="icon.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="doc">
+    <p><a href="./">← SideReplay</a></p>
+    <h1>Katalon Recorder alternative: keep running your test suites in Chrome</h1>
+
+    <div class="callout">
+      <strong>Short answer.</strong> Katalon Recorder is no longer maintained. SideReplay is a Chrome extension that opens the <code>.html</code> test suites Katalon Recorder saved and runs them as they are. It also records new tests and can export them to Playwright. Recording and playback are free.<br>
+      <a class="button primary" href="https://chromewebstore.google.com/detail/giiegloccjlfbooafilbmbbjfidfehek?utm_source=sidereplay-site&utm_medium=katalon-recorder-alternative&utm_campaign=site">Add SideReplay to Chrome</a>
+    </div>
+    <p class="muted">SideReplay is an independent extension. It is not made by Katalon.</p>
+
+    <h2>What happened to Katalon Recorder</h2>
+    <p>In September 2026 its <a href="https://chromewebstore.google.com/detail/katalon-recorder-selenium/ljdobmomdgdljniojadhoplhkpialdid">Chrome Web Store page</a> was updated with a notice that the extension is no longer actively maintained, and that no further feature development, updates or security patches are planned. It still installs today, but if a future Chrome update breaks it, no fix is planned.</p>
+    <p>Your test suites are not lost. Katalon Recorder saves them as plain HTML tables, the same format that Selenium IDE 1.x and 2.x used, so another tool can read them.</p>
+
+    <h2>Move your test suites to SideReplay</h2>
+    <ol>
+      <li><strong>Save every test suite from Katalon Recorder first.</strong> Its suites live inside the extension, so download each one as an <code>.html</code> file before you remove it.</li>
+      <li>Install <a href="https://chromewebstore.google.com/detail/giiegloccjlfbooafilbmbbjfidfehek?utm_source=sidereplay-site&utm_medium=katalon-recorder-alternative&utm_campaign=site">SideReplay from the Chrome Web Store</a> and click its toolbar icon. It opens in Chrome's side panel.</li>
+      <li>Click <strong>Open</strong> and choose your <code>.html</code> file. Every test case in the suite comes in, with the backup locators Katalon Recorder saved for each step. You can select several files at once.</li>
+      <li>If your tests open relative addresses such as <code>/login</code>, type your site's address into <strong>Base URL</strong>.</li>
+      <li>Click <strong>Run test</strong>. If a step can't run, SideReplay lists it before the test starts.</li>
+      <li>Click <strong>Save</strong> to keep the suite as a Selenium IDE <code>.side</code> project, which other tools can open too.</li>
+    </ol>
+    <img src="screenshot-1-run.png" alt="SideReplay running a test suite in Chrome's side panel">
+
+    <h2>How older commands are handled</h2>
+    <table>
+      <tr><th>In your Katalon Recorder suite</th><th>In SideReplay</th></tr>
+      <tr><td><code>clickAndWait</code>, <code>typeAndWait</code> and other <code>…AndWait</code> commands</td><td>The same command without <code>AndWait</code>. Every step already waits for the page.</td></tr>
+      <tr><td><code>waitForPageToLoad</code>, <code>setTimeout</code>, <code>highlight</code></td><td>Kept, but turned off, because Chrome doesn't need them</td></tr>
+      <tr><td><code>verifyTextPresent</code>, <code>assertTextNotPresent</code> and similar</td><td>An element check on the page body that looks for the same text</td></tr>
+      <tr><td><code>storeEval</code>, <code>storedVars['name']</code></td><td><code>executeScript</code> and <code>${name}</code></td></tr>
+      <tr><td><code>if</code> … <code>endIf</code>, <code>while</code> … <code>endWhile</code></td><td><code>if</code> … <code>end</code>, <code>while</code> … <code>end</code></td></tr>
+      <tr><td>Locators without a type, such as <code>email</code> or <code>//button[1]</code></td><td><code>id=email</code> and <code>xpath=//button[1]</code></td></tr>
+      <tr><td>Data-driven loops (<code>loadVars</code>), <code>gotoIf</code> and <code>label</code></td><td>Not supported yet, and listed before the test runs</td></tr>
+    </table>
+
+    <h2>What you get on top</h2>
+    <ul>
+      <li><strong>Locator healing.</strong> When a page changes and a locator stops matching, SideReplay tries the backup locators from your file, shows which one worked and can update the test in one click.</li>
+      <li><strong>Playwright export.</strong> Export a test or a whole suite to Playwright Test (TypeScript) when you are ready to move to code. Try it first with the <a href="convert.html">free online converter</a>, which also accepts Katalon Recorder files.</li>
+      <li><strong>Selenium IDE files too.</strong> SideReplay also opens <code>.side</code> projects from Selenium IDE 3 and 4. See <a href="selenium-ide-alternative.html">Selenium IDE alternatives</a>.</li>
+    </ul>
+
+    <h2>Questions</h2>
+    <details><summary>Is SideReplay made by Katalon?</summary><p>No. It is an independent Chrome extension that reads the HTML test suite format. Katalon and Katalon Recorder are trademarks of Katalon, Inc.</p></details>
+    <details><summary>Does it change my original file?</summary><p>No. SideReplay reads the file and keeps its own copy in your browser. Click Save to download it as a <code>.side</code> project.</p></details>
+    <details><summary>Can I still use my data-driven tests?</summary><p>Not yet. Katalon Recorder keeps the CSV data for <code>loadVars</code> inside the extension, not in the test file. SideReplay marks these steps as unsupported so you know which tests need changes.</p></details>
+    <details><summary>What does it cost?</summary><p>Opening, running, editing, recording and fixing broken locators are free. Exporting whole projects to Playwright and HTML reports are part of <a href="./#pricing">Pro</a>.</p></details>
+    <details><summary>Is my data sent anywhere?</summary><p>No. Tests stay in your browser. See the <a href="privacy.html">privacy policy</a>.</p></details>
+
+    <div class="callout">
+      <strong>Your Katalon Recorder test suites still have a home in Chrome.</strong><br>
+      <a class="button primary" href="https://chromewebstore.google.com/detail/giiegloccjlfbooafilbmbbjfidfehek?utm_source=sidereplay-site&utm_medium=katalon-recorder-alternative&utm_campaign=site">Add SideReplay to Chrome</a>
+    </div>
+
+    <footer>
+      <a href="./">Home</a><a href="selenium-ide-alternative.html">Selenium IDE alternatives</a><a href="convert.html">Free converter</a><a href="privacy.html">Privacy</a><a href="mailto:sidereplay.support@gmail.com">Contact</a>
+      <p>SideReplay is not affiliated with Katalon or the Selenium project. Katalon and Katalon Recorder are trademarks of Katalon, Inc. Selenium is a trademark of the Software Freedom Conservancy.</p>
+    </footer>
+  </main>
+</body>
+</html>
