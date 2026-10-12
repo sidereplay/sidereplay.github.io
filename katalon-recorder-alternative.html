@@ -47,7 +47,8 @@
       <tr><td><code>storeEval</code>, <code>storedVars['name']</code></td><td><code>executeScript</code> and <code>${name}</code></td></tr>
       <tr><td><code>if</code> … <code>endIf</code>, <code>while</code> … <code>endWhile</code></td><td><code>if</code> … <code>end</code>, <code>while</code> … <code>end</code></td></tr>
       <tr><td>Locators without a type, such as <code>email</code> or <code>//button[1]</code></td><td><code>id=email</code> and <code>xpath=//button[1]</code></td></tr>
-      <tr><td>Data-driven loops (<code>loadVars</code>), <code>gotoIf</code> and <code>label</code></td><td>Not supported yet, and listed before the test runs</td></tr>
+      <tr><td>Data-driven loops: <code>loadVars</code> … <code>endLoadVars</code></td><td><code>loadVars</code> … <code>end</code>. Add your CSV or JSON file under <strong>Data files</strong>; each column becomes a variable</td></tr>
+      <tr><td><code>gotoIf</code> and <code>label</code></td><td>Not supported yet, and listed before the test runs</td></tr>
     </table>
 
     <h2>What you get on top</h2>
@@ -60,7 +61,7 @@
     <h2>Questions</h2>
     <details><summary>Is SideReplay made by Katalon?</summary><p>No. It is an independent Chrome extension that reads the HTML test suite format. Katalon and Katalon Recorder are trademarks of Katalon, Inc.</p></details>
     <details><summary>Does it change my original file?</summary><p>No. SideReplay reads the file and keeps its own copy in your browser. Click Save to download it as a <code>.side</code> project.</p></details>
-    <details><summary>Can I still use my data-driven tests?</summary><p>Not yet. Katalon Recorder keeps the CSV data for <code>loadVars</code> inside the extension, not in the test file. SideReplay marks these steps as unsupported so you know which tests need changes.</p></details>
+    <details><summary>Can I still use my data-driven tests?</summary><p>Yes. Katalon Recorder keeps the CSV data for <code>loadVars</code> inside the extension, not in the test file, so add the same CSV or JSON file once under <strong>Data files</strong> in SideReplay. It is saved with your project. The free version runs the first row so you can check that everything works; <a href="./#pricing">Pro</a> runs every row.</p></details>
     <details><summary>What does it cost?</summary><p>Opening, running, editing, recording and fixing broken locators are free. Exporting whole projects to Playwright and HTML reports are part of <a href="./#pricing">Pro</a>.</p></details>
     <details><summary>Is my data sent anywhere?</summary><p>No. Tests stay in your browser. See the <a href="privacy.html">privacy policy</a>.</p></details>
 
