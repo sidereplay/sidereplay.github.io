@@ -48,3 +48,6 @@ footer a { color: var(--muted); margin-right: 16px; }
 .doc td code { overflow-wrap: anywhere; }
 .doc pre { max-width: 100%; }
 .doc { overflow-wrap: break-word; }
+.cta-note { margin: 8px 0 0; color: var(--muted); font-size: 14px; }
+.doc video.demo { display: block; width: 100%; border-radius: 10px; box-shadow: 0 10px 30px rgb(20 30 60 / 0.15); margin: 8px 0 12px; }
+.doc tr.highlight td { background: var(--soft); font-weight: 700; }
